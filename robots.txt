@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kimdoheon2002-hue.github.io/product-build1/sitemap.xml
