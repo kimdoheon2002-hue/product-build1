@@ -219,6 +219,20 @@
   document.getElementById('generateBtn').addEventListener('click', renderOne);
   document.getElementById('generateAllBtn').addEventListener('click', renderAll);
 
+  const themeToggle = document.getElementById('themeToggle');
+  function updateToggleLabel() {
+    const current = document.documentElement.getAttribute('data-theme');
+    themeToggle.textContent = current === 'light' ? '☀️ 화이트모드' : '🌙 다크모드';
+  }
+  themeToggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateToggleLabel();
+  });
+  updateToggleLabel();
+
   renderAll();
 </script>
 </body>
