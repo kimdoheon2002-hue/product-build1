@@ -205,6 +205,21 @@
     document.getElementById('dateLabel').textContent = label;
   }
 
+  function speak(text, btn) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'ko-KR';
+    utter.rate = 0.9;
+    if (btn) {
+      document.querySelectorAll('.speak-btn.playing').forEach(b => b.classList.remove('playing'));
+      btn.classList.add('playing');
+      utter.onend = () => btn.classList.remove('playing');
+      utter.onerror = () => btn.classList.remove('playing');
+    }
+    window.speechSynthesis.speak(utter);
+  }
+
   function render() {
     renderDate();
     const grid = document.getElementById('grid');
@@ -216,6 +231,7 @@
         <div class="card-head">
           <span class="index">${i + 1}</span>
           <span class="word">${word.kr}</span>
+          <button class="speak-btn" type="button" title="발음 듣기" data-text="${word.kr}">🔊</button>
         </div>
         <div class="romanization">${word.ro}</div>
         <div class="meaning">${word.en}</div>
@@ -225,6 +241,9 @@
         </div>
       `;
       grid.appendChild(card);
+    });
+    grid.querySelectorAll('.speak-btn').forEach(btn => {
+      btn.addEventListener('click', () => speak(btn.dataset.text, btn));
     });
   }
 
