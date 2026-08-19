@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>오늘의 한국어 10</title>
+<title>Learn Korean — Daily Phrases</title>
+<meta name="description" content="Learn 10 real-life Korean phrases every day, with romanization, English meaning, usage tips, and audio pronunciation.">
 <style>
   :root {
     --bg: #f7f5f0;
@@ -30,10 +31,19 @@
     font-size: 1.9rem;
     margin: 0 0 6px;
     letter-spacing: -0.5px;
+    text-align: center;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.98rem;
+    margin: 0 0 6px;
+    text-align: center;
+    max-width: 480px;
   }
   .date {
-    color: var(--muted);
-    font-size: 0.95rem;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
     margin-bottom: 36px;
   }
   .grid {
@@ -49,6 +59,27 @@
     border-radius: 16px;
     padding: 20px 22px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+  }
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .index {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .category {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
   .card-head {
     display: flex;
@@ -70,6 +101,7 @@
     align-items: center;
     justify-content: center;
     transition: transform 0.12s ease, background 0.12s ease;
+    flex-shrink: 0;
   }
   .speak-btn:hover {
     background: var(--accent);
@@ -82,20 +114,13 @@
     background: var(--accent);
     color: #fff;
   }
-  .index {
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 0.75rem;
-    padding: 2px 8px;
-    border-radius: 999px;
-  }
   .word {
     font-size: 1.4rem;
     font-weight: 700;
   }
   .romanization {
     color: var(--muted);
+    font-style: italic;
     font-size: 0.9rem;
     margin-bottom: 10px;
   }
@@ -103,17 +128,19 @@
     font-weight: 600;
     margin-bottom: 10px;
   }
-  .example {
+  .usage {
     border-top: 1px dashed var(--border);
     padding-top: 10px;
-    font-size: 0.92rem;
-    line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.55;
   }
-  .example .kr {
+  .usage .en {
     color: var(--text);
   }
-  .example .en {
+  .usage .kr {
     color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 3px;
   }
   footer {
     margin-top: 40px;
@@ -121,61 +148,63 @@
     font-size: 0.82rem;
     text-align: center;
     line-height: 1.6;
+    max-width: 480px;
   }
 </style>
 </head>
 <body>
-  <h1>💬 오늘의 실생활 한국어 10</h1>
+  <h1>🇰🇷 Learn Korean — Daily 10 Phrases</h1>
+  <p class="subtitle">Real-life Korean phrases for beginners, with pronunciation, meaning, and when to use them.</p>
   <div class="date" id="dateLabel"></div>
 
   <div class="grid" id="grid"></div>
 
   <footer>
-    매일 자정마다 실생활에서 자주 쓰는 표현 10개로 자동으로 바뀝니다.
+    A fresh set of 10 phrases is picked automatically every day at midnight — come back tomorrow to learn more.
   </footer>
 
 <script>
   const WORDS = [
-    { kr: '안녕하세요', ro: 'annyeonghaseyo', en: 'Hello', ex: '누군가를 처음 만나거나 마주쳤을 때', exEn: 'When meeting or greeting someone' },
-    { kr: '감사합니다', ro: 'gamsahamnida', en: 'Thank you', ex: '도움을 받았을 때 정중하게', exEn: 'Politely, when someone helps you' },
-    { kr: '죄송합니다', ro: 'joesonghamnida', en: 'I\'m sorry (formal)', ex: '실수했거나 폐를 끼쳤을 때', exEn: 'When you made a mistake or caused trouble' },
-    { kr: '실례합니다', ro: 'sillyehamnida', en: 'Excuse me', ex: '지나가거나 말을 걸기 전에', exEn: 'Before passing by or interrupting someone' },
-    { kr: '잠깐만요', ro: 'jamkkanmanyo', en: 'Just a moment', ex: '잠시 기다려 달라고 할 때', exEn: 'Asking someone to wait a moment' },
-    { kr: '괜찮아요', ro: 'gwaenchanayo', en: 'It\'s okay / I\'m fine', ex: '사과를 받아줄 때, 상태를 물을 때', exEn: 'Accepting an apology, or saying you\'re fine' },
-    { kr: '얼마예요?', ro: 'eolmayeyo?', en: 'How much is it?', ex: '가게에서 가격을 물을 때', exEn: 'Asking the price at a shop' },
-    { kr: '이거 주세요', ro: 'igeo juseyo', en: 'This one, please', ex: '물건을 살 때 가리키며', exEn: 'Pointing at something you want to buy' },
-    { kr: '화장실이 어디예요?', ro: 'hwajangsiri eodiyeyo?', en: 'Where is the restroom?', ex: '급하게 화장실을 찾을 때', exEn: 'Looking for a restroom' },
-    { kr: '여기요', ro: 'yeogiyo', en: 'Excuse me (calling someone)', ex: '식당에서 직원을 부를 때', exEn: 'Calling a server at a restaurant' },
-    { kr: '잘 먹겠습니다', ro: 'jal meokgetseumnida', en: 'I will eat well', ex: '식사를 시작하기 전에', exEn: 'Said right before starting a meal' },
-    { kr: '잘 먹었습니다', ro: 'jal meogeotseumnida', en: 'I ate well, thank you', ex: '식사를 마친 후에', exEn: 'Said after finishing a meal' },
-    { kr: '배고파요', ro: 'baegopayo', en: 'I\'m hungry', ex: '배가 고플 때 표현', exEn: 'Expressing hunger' },
-    { kr: '맛있어요', ro: 'masisseoyo', en: 'It\'s delicious', ex: '음식이 맛있을 때', exEn: 'When food tastes good' },
-    { kr: '조심하세요', ro: 'josimhaseyo', en: 'Be careful', ex: '위험을 알리거나 주의를 줄 때', exEn: 'Warning someone to be careful' },
-    { kr: '도와주세요', ro: 'dowajuseyo', en: 'Please help me', ex: '도움이 필요할 때', exEn: 'Asking for help' },
-    { kr: '알겠습니다', ro: 'algetseumnida', en: 'I understand / Got it', ex: '지시나 설명을 이해했을 때', exEn: 'Confirming you understood something' },
-    { kr: '잘 모르겠어요', ro: 'jal moreugesseoyo', en: 'I don\'t really know', ex: '확실하지 않을 때 대답', exEn: 'Answering when you\'re not sure' },
-    { kr: '다시 말해 주세요', ro: 'dasi malhae juseyo', en: 'Please say that again', ex: '못 들었거나 이해 못했을 때', exEn: 'When you didn\'t catch what was said' },
-    { kr: '천천히 말해 주세요', ro: 'cheoncheonhi malhae juseyo', en: 'Please speak slowly', ex: '말이 너무 빠를 때', exEn: 'When someone is speaking too fast' },
-    { kr: '영어 할 줄 아세요?', ro: 'yeongeo hal jul aseyo?', en: 'Do you speak English?', ex: '언어 소통이 어려울 때', exEn: 'Checking if the other person speaks English' },
-    { kr: '한국어를 잘 못해요', ro: 'hangugeoreul jal mothaeyo', en: 'I don\'t speak Korean well', ex: '한국어 실력을 미리 알릴 때', exEn: 'Letting someone know your Korean is limited' },
-    { kr: '이름이 뭐예요?', ro: 'ireumi mwoyeyo?', en: 'What is your name?', ex: '처음 만난 사람에게', exEn: 'Asking someone\'s name when you first meet' },
-    { kr: '반갑습니다', ro: 'bangapseumnida', en: 'Nice to meet you', ex: '첫 인사를 나눌 때', exEn: 'Said when greeting someone for the first time' },
-    { kr: '오랜만이에요', ro: 'oraenmanieyo', en: 'Long time no see', ex: '오랫동안 못 본 사람에게', exEn: 'Greeting someone you haven\'t seen in a while' },
-    { kr: '수고하셨습니다', ro: 'sugohasyeotseumnida', en: 'Thank you for your hard work', ex: '일이 끝난 뒤 인사', exEn: 'Said after work is finished' },
-    { kr: '축하합니다', ro: 'chukhahamnida', en: 'Congratulations', ex: '좋은 일이 생겼을 때', exEn: 'When something good happens to someone' },
-    { kr: '힘내세요', ro: 'himnaeseyo', en: 'Cheer up / Hang in there', ex: '힘든 사람을 응원할 때', exEn: 'Encouraging someone who\'s struggling' },
-    { kr: '기다려 주세요', ro: 'gidaryeo juseyo', en: 'Please wait', ex: '잠시 기다려 달라고 요청할 때', exEn: 'Asking someone to wait' },
-    { kr: '몇 시예요?', ro: 'myeot siyeyo?', en: 'What time is it?', ex: '시간을 물을 때', exEn: 'Asking for the current time' },
-    { kr: '같이 가요', ro: 'gachi gayo', en: 'Let\'s go together', ex: '함께 가자고 제안할 때', exEn: 'Suggesting to go somewhere together' },
-    { kr: '여기가 어디예요?', ro: 'yeogiga eodiyeyo?', en: 'Where is this place?', ex: '길을 잃었을 때', exEn: 'Asking where you currently are' },
-    { kr: '길을 잃었어요', ro: 'gireul ireosseoyo', en: 'I\'m lost', ex: '길을 못 찾을 때', exEn: 'Telling someone you\'re lost' },
-    { kr: '이거 얼마나 걸려요?', ro: 'igeo eolmana geollyeoyo?', en: 'How long does this take?', ex: '소요 시간을 물을 때', exEn: 'Asking how much time something takes' },
-    { kr: '계산해 주세요', ro: 'gyesanhae juseyo', en: 'Check, please', ex: '식당에서 계산을 요청할 때', exEn: 'Asking for the bill at a restaurant' },
-    { kr: '이거 얼마예요?', ro: 'igeo eolmayeyo?', en: 'How much is this?', ex: '특정 물건의 가격을 물을 때', exEn: 'Asking the price of a specific item' },
-    { kr: '더 주세요', ro: 'deo juseyo', en: 'More, please', ex: '음식이나 물건을 더 요청할 때', exEn: 'Asking for more food or something' },
-    { kr: '괜찮으세요?', ro: 'gwaenchaneuseyo?', en: 'Are you okay?', ex: '상대방의 상태를 물을 때', exEn: 'Checking if someone is alright' },
-    { kr: '조금만요', ro: 'jogeummanyo', en: 'Just a little', ex: '양을 조금만 달라고 할 때', exEn: 'Asking for just a small amount' },
-    { kr: '어디 가세요?', ro: 'eodi gaseyo?', en: 'Where are you going?', ex: '가벼운 안부 인사로', exEn: 'A casual, friendly greeting' },
+    { kr: '안녕하세요', ro: 'annyeonghaseyo', en: 'Hello', cat: 'Greetings', ex: 'When meeting or greeting someone', exKr: '누군가를 처음 만나거나 마주쳤을 때' },
+    { kr: '감사합니다', ro: 'gamsahamnida', en: 'Thank you', cat: 'Politeness', ex: 'Politely, when someone helps you', exKr: '도움을 받았을 때 정중하게' },
+    { kr: '죄송합니다', ro: 'joesonghamnida', en: 'I\'m sorry (formal)', cat: 'Politeness', ex: 'When you made a mistake or caused trouble', exKr: '실수했거나 폐를 끼쳤을 때' },
+    { kr: '실례합니다', ro: 'sillyehamnida', en: 'Excuse me', cat: 'Politeness', ex: 'Before passing by or interrupting someone', exKr: '지나가거나 말을 걸기 전에' },
+    { kr: '잠깐만요', ro: 'jamkkanmanyo', en: 'Just a moment', cat: 'Time & Plans', ex: 'Asking someone to wait a moment', exKr: '잠시 기다려 달라고 할 때' },
+    { kr: '괜찮아요', ro: 'gwaenchanayo', en: 'It\'s okay / I\'m fine', cat: 'Politeness', ex: 'Accepting an apology, or saying you\'re fine', exKr: '사과를 받아줄 때, 상태를 물을 때' },
+    { kr: '얼마예요?', ro: 'eolmayeyo?', en: 'How much is it?', cat: 'Shopping', ex: 'Asking the price at a shop', exKr: '가게에서 가격을 물을 때' },
+    { kr: '이거 주세요', ro: 'igeo juseyo', en: 'This one, please', cat: 'Shopping', ex: 'Pointing at something you want to buy', exKr: '물건을 살 때 가리키며' },
+    { kr: '화장실이 어디예요?', ro: 'hwajangsiri eodiyeyo?', en: 'Where is the restroom?', cat: 'Directions', ex: 'Looking for a restroom', exKr: '급하게 화장실을 찾을 때' },
+    { kr: '여기요', ro: 'yeogiyo', en: 'Excuse me (calling someone)', cat: 'Dining', ex: 'Calling a server at a restaurant', exKr: '식당에서 직원을 부를 때' },
+    { kr: '잘 먹겠습니다', ro: 'jal meokgetseumnida', en: 'I will eat well', cat: 'Dining', ex: 'Said right before starting a meal', exKr: '식사를 시작하기 전에' },
+    { kr: '잘 먹었습니다', ro: 'jal meogeotseumnida', en: 'I ate well, thank you', cat: 'Dining', ex: 'Said after finishing a meal', exKr: '식사를 마친 후에' },
+    { kr: '배고파요', ro: 'baegopayo', en: 'I\'m hungry', cat: 'Dining', ex: 'Expressing hunger', exKr: '배가 고플 때 표현' },
+    { kr: '맛있어요', ro: 'masisseoyo', en: 'It\'s delicious', cat: 'Dining', ex: 'When food tastes good', exKr: '음식이 맛있을 때' },
+    { kr: '조심하세요', ro: 'josimhaseyo', en: 'Be careful', cat: 'Encouragement', ex: 'Warning someone to be careful', exKr: '위험을 알리거나 주의를 줄 때' },
+    { kr: '도와주세요', ro: 'dowajuseyo', en: 'Please help me', cat: 'Help', ex: 'Asking for help', exKr: '도움이 필요할 때' },
+    { kr: '알겠습니다', ro: 'algetseumnida', en: 'I understand / Got it', cat: 'Help', ex: 'Confirming you understood something', exKr: '지시나 설명을 이해했을 때' },
+    { kr: '잘 모르겠어요', ro: 'jal moreugesseoyo', en: 'I don\'t really know', cat: 'Help', ex: 'Answering when you\'re not sure', exKr: '확실하지 않을 때 대답' },
+    { kr: '다시 말해 주세요', ro: 'dasi malhae juseyo', en: 'Please say that again', cat: 'Help', ex: 'When you didn\'t catch what was said', exKr: '못 들었거나 이해 못했을 때' },
+    { kr: '천천히 말해 주세요', ro: 'cheoncheonhi malhae juseyo', en: 'Please speak slowly', cat: 'Help', ex: 'When someone is speaking too fast', exKr: '말이 너무 빠를 때' },
+    { kr: '영어 할 줄 아세요?', ro: 'yeongeo hal jul aseyo?', en: 'Do you speak English?', cat: 'Help', ex: 'Checking if the other person speaks English', exKr: '언어 소통이 어려울 때' },
+    { kr: '한국어를 잘 못해요', ro: 'hangugeoreul jal mothaeyo', en: 'I don\'t speak Korean well', cat: 'Help', ex: 'Letting someone know your Korean is limited', exKr: '한국어 실력을 미리 알릴 때' },
+    { kr: '이름이 뭐예요?', ro: 'ireumi mwoyeyo?', en: 'What is your name?', cat: 'Greetings', ex: 'Asking someone\'s name when you first meet', exKr: '처음 만난 사람에게' },
+    { kr: '반갑습니다', ro: 'bangapseumnida', en: 'Nice to meet you', cat: 'Greetings', ex: 'Said when greeting someone for the first time', exKr: '첫 인사를 나눌 때' },
+    { kr: '오랜만이에요', ro: 'oraenmanieyo', en: 'Long time no see', cat: 'Greetings', ex: 'Greeting someone you haven\'t seen in a while', exKr: '오랫동안 못 본 사람에게' },
+    { kr: '수고하셨습니다', ro: 'sugohasyeotseumnida', en: 'Thank you for your hard work', cat: 'Encouragement', ex: 'Said after work is finished', exKr: '일이 끝난 뒤 인사' },
+    { kr: '축하합니다', ro: 'chukhahamnida', en: 'Congratulations', cat: 'Encouragement', ex: 'When something good happens to someone', exKr: '좋은 일이 생겼을 때' },
+    { kr: '힘내세요', ro: 'himnaeseyo', en: 'Cheer up / Hang in there', cat: 'Encouragement', ex: 'Encouraging someone who\'s struggling', exKr: '힘든 사람을 응원할 때' },
+    { kr: '기다려 주세요', ro: 'gidaryeo juseyo', en: 'Please wait', cat: 'Time & Plans', ex: 'Asking someone to wait', exKr: '잠시 기다려 달라고 요청할 때' },
+    { kr: '몇 시예요?', ro: 'myeot siyeyo?', en: 'What time is it?', cat: 'Time & Plans', ex: 'Asking for the current time', exKr: '시간을 물을 때' },
+    { kr: '같이 가요', ro: 'gachi gayo', en: 'Let\'s go together', cat: 'Time & Plans', ex: 'Suggesting to go somewhere together', exKr: '함께 가자고 제안할 때' },
+    { kr: '여기가 어디예요?', ro: 'yeogiga eodiyeyo?', en: 'Where is this place?', cat: 'Directions', ex: 'Asking where you currently are', exKr: '길을 잃었을 때' },
+    { kr: '길을 잃었어요', ro: 'gireul ireosseoyo', en: 'I\'m lost', cat: 'Directions', ex: 'Telling someone you\'re lost', exKr: '길을 못 찾을 때' },
+    { kr: '이거 얼마나 걸려요?', ro: 'igeo eolmana geollyeoyo?', en: 'How long does this take?', cat: 'Directions', ex: 'Asking how much time something takes', exKr: '소요 시간을 물을 때' },
+    { kr: '계산해 주세요', ro: 'gyesanhae juseyo', en: 'Check, please', cat: 'Dining', ex: 'Asking for the bill at a restaurant', exKr: '식당에서 계산을 요청할 때' },
+    { kr: '이거 얼마예요?', ro: 'igeo eolmayeyo?', en: 'How much is this?', cat: 'Shopping', ex: 'Asking the price of a specific item', exKr: '특정 물건의 가격을 물을 때' },
+    { kr: '더 주세요', ro: 'deo juseyo', en: 'More, please', cat: 'Shopping', ex: 'Asking for more food or something', exKr: '음식이나 물건을 더 요청할 때' },
+    { kr: '괜찮으세요?', ro: 'gwaenchaneuseyo?', en: 'Are you okay?', cat: 'Politeness', ex: 'Checking if someone is alright', exKr: '상대방의 상태를 물을 때' },
+    { kr: '조금만요', ro: 'jogeummanyo', en: 'Just a little', cat: 'Shopping', ex: 'Asking for just a small amount', exKr: '양을 조금만 달라고 할 때' },
+    { kr: '어디 가세요?', ro: 'eodi gaseyo?', en: 'Where are you going?', cat: 'Greetings', ex: 'A casual, friendly greeting', exKr: '가벼운 안부 인사로' },
   ];
 
   function dailySeed() {
@@ -201,7 +230,8 @@
 
   function renderDate() {
     const now = new Date();
-    const label = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일의 단어`;
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const label = `Today's phrases — ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
     document.getElementById('dateLabel').textContent = label;
   }
 
@@ -210,7 +240,7 @@
     window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'ko-KR';
-    utter.rate = 0.9;
+    utter.rate = 0.85;
     if (btn) {
       document.querySelectorAll('.speak-btn.playing').forEach(b => b.classList.remove('playing'));
       btn.classList.add('playing');
@@ -228,16 +258,19 @@
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        <div class="card-head">
+        <div class="card-top">
           <span class="index">${i + 1}</span>
+          <span class="category">${word.cat}</span>
+        </div>
+        <div class="card-head">
           <span class="word">${word.kr}</span>
-          <button class="speak-btn" type="button" title="발음 듣기" data-text="${word.kr}">🔊</button>
+          <button class="speak-btn" type="button" title="Listen to pronunciation" data-text="${word.kr}">🔊</button>
         </div>
         <div class="romanization">${word.ro}</div>
         <div class="meaning">${word.en}</div>
-        <div class="example">
-          <div class="kr">🗣️ ${word.ex}</div>
-          <div class="en">${word.exEn}</div>
+        <div class="usage">
+          <div class="en">💡 ${word.ex}</div>
+          <div class="kr">${word.exKr}</div>
         </div>
       `;
       grid.appendChild(card);
