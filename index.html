@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>로또 번호 추천</title>
+<script>
+  (function () {
+    const saved = localStorage.getItem('theme');
+    const theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
 <style>
   :root {
     --bg-grad-1: #1c2338;
