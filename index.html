@@ -3,237 +3,206 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>로또 번호 추천</title>
-<script>
-  (function () {
-    const saved = localStorage.getItem('theme');
-    const theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-    document.documentElement.setAttribute('data-theme', theme);
-  })();
-</script>
+<title>오늘의 한국어 10</title>
 <style>
   :root {
-    --bg-grad-1: #1c2338;
-    --bg-grad-2: #0b0e17;
-    --card: #1a2133;
-    --text: #eef1f8;
-    --muted: #8b93a7;
-    --accent: #ffb703;
-    --border: #3a4256;
-  }
-  :root[data-theme="light"] {
-    --bg-grad-1: #f4f6fb;
-    --bg-grad-2: #e7ebf3;
+    --bg: #f7f5f0;
     --card: #ffffff;
-    --text: #1a2133;
-    --muted: #6b7280;
-    --accent: #ff8f00;
-    --border: #dde2ec;
+    --text: #2b2620;
+    --muted: #8a8378;
+    --accent: #c1440e;
+    --accent-soft: #fbe9df;
+    --border: #e8e3da;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     min-height: 100vh;
-    background: radial-gradient(circle at top, var(--bg-grad-1), var(--bg-grad-2) 70%);
+    background: var(--bg);
     color: var(--text);
     font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 16px 80px;
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-  .theme-toggle {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 999px;
-    padding: 8px 14px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    padding: 48px 16px 80px;
   }
   h1 {
-    font-size: 1.8rem;
-    margin-bottom: 4px;
+    font-size: 1.9rem;
+    margin: 0 0 6px;
     letter-spacing: -0.5px;
   }
-  p.subtitle {
+  .date {
     color: var(--muted);
-    margin-top: 0;
-    margin-bottom: 32px;
     font-size: 0.95rem;
+    margin-bottom: 36px;
   }
-  .controls {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  button {
-    background: var(--accent);
-    color: #1a1a1a;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    box-shadow: 0 4px 14px rgba(255, 183, 3, 0.25);
-  }
-  button:hover { transform: translateY(-2px); }
-  button:active { transform: translateY(0); }
-  button.secondary {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-    box-shadow: none;
-  }
-  .games {
+  .grid {
     width: 100%;
-    max-width: 640px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    max-width: 760px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
   }
-  .game {
+  .card {
     background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.25);
-    animation: fadeIn 0.4s ease both;
+    padding: 20px 22px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
   }
-  .game-label {
-    font-weight: 700;
-    color: var(--muted);
-    width: 24px;
-    flex-shrink: 0;
-  }
-  .balls {
+  .card-head {
     display: flex;
+    align-items: baseline;
     gap: 10px;
-    flex-wrap: wrap;
+    margin-bottom: 8px;
   }
-  .ball {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .index {
+    background: var(--accent-soft);
+    color: var(--accent);
     font-weight: 700;
-    font-size: 1rem;
-    color: #fff;
-    box-shadow: inset 0 -3px 6px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.3);
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
   }
-  .b1 { background: #fbc400; color: #4a3600; }
-  .b2 { background: #69c8f2; }
-  .b3 { background: #ff7272; }
-  .b4 { background: #aaaaaa; }
-  .b5 { background: #b0d840; color: #384600; }
-
+  .word {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .romanization {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  .meaning {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .example {
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .example .kr {
+    color: var(--text);
+  }
+  .example .en {
+    color: var(--muted);
+  }
   footer {
     margin-top: 40px;
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     text-align: center;
     line-height: 1.6;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
 <body>
-  <button class="theme-toggle" id="themeToggle">🌙 다크모드</button>
+  <h1>📚 오늘의 한국어 10</h1>
+  <div class="date" id="dateLabel"></div>
 
-  <h1>🎱 로또 번호 추천</h1>
-  <p class="subtitle">1 ~ 45 중 6개, 완전 무작위로 뽑아드립니다</p>
-
-  <div class="controls">
-    <button id="generateBtn">번호 뽑기</button>
-    <button id="generateAllBtn" class="secondary">5게임 전체 새로뽑기</button>
-  </div>
-
-  <div class="games" id="games"></div>
+  <div class="grid" id="grid"></div>
 
   <footer>
-    본 사이트는 참고용 무작위 추천이며, 당첨을 보장하지 않습니다.<br>
-    과도한 구매는 가계에 부담이 될 수 있습니다.
+    매일 자정마다 새로운 단어 10개로 자동으로 바뀝니다.
   </footer>
 
 <script>
-  const gamesEl = document.getElementById('games');
-  const labels = ['A', 'B', 'C', 'D', 'E'];
+  const WORDS = [
+    { kr: '안녕하세요', ro: 'annyeonghaseyo', en: 'Hello', ex: '안녕하세요, 만나서 반갑습니다.', exEn: 'Hello, nice to meet you.' },
+    { kr: '감사합니다', ro: 'gamsahamnida', en: 'Thank you', ex: '도와주셔서 감사합니다.', exEn: 'Thank you for helping me.' },
+    { kr: '미안합니다', ro: 'mianhamnida', en: 'I\'m sorry', ex: '늦어서 미안합니다.', exEn: 'I\'m sorry for being late.' },
+    { kr: '사랑', ro: 'sarang', en: 'Love', ex: '가족에 대한 사랑은 크다.', exEn: 'Love for family is great.' },
+    { kr: '친구', ro: 'chingu', en: 'Friend', ex: '그는 나의 가장 친한 친구다.', exEn: 'He is my best friend.' },
+    { kr: '가족', ro: 'gajok', en: 'Family', ex: '주말에는 가족과 시간을 보낸다.', exEn: 'I spend time with family on weekends.' },
+    { kr: '학교', ro: 'hakgyo', en: 'School', ex: '학교까지 걸어서 십 분 걸린다.', exEn: 'It takes ten minutes to walk to school.' },
+    { kr: '음식', ro: 'eumsik', en: 'Food', ex: '이 음식은 정말 맛있다.', exEn: 'This food is really delicious.' },
+    { kr: '날씨', ro: 'nalssi', en: 'Weather', ex: '오늘 날씨가 아주 좋다.', exEn: 'The weather is very nice today.' },
+    { kr: '시간', ro: 'sigan', en: 'Time', ex: '시간이 벌써 이렇게 됐네요.', exEn: 'It\'s already this late.' },
+    { kr: '행복', ro: 'haengbok', en: 'Happiness', ex: '작은 것에서 행복을 찾는다.', exEn: 'I find happiness in small things.' },
+    { kr: '여행', ro: 'yeohaeng', en: 'Travel', ex: '다음 달에 여행을 갈 예정이다.', exEn: 'I plan to travel next month.' },
+    { kr: '일', ro: 'il', en: 'Work / Job', ex: '오늘은 할 일이 많다.', exEn: 'I have a lot of work today.' },
+    { kr: '집', ro: 'jip', en: 'House / Home', ex: '집에 가고 싶다.', exEn: 'I want to go home.' },
+    { kr: '물', ro: 'mul', en: 'Water', ex: '물 한 잔 주세요.', exEn: 'Please give me a glass of water.' },
+    { kr: '책', ro: 'chaek', en: 'Book', ex: '이 책은 정말 재미있다.', exEn: 'This book is really interesting.' },
+    { kr: '꿈', ro: 'kkum', en: 'Dream', ex: '나는 큰 꿈을 가지고 있다.', exEn: 'I have a big dream.' },
+    { kr: '노력', ro: 'noryeok', en: 'Effort', ex: '성공은 노력에서 온다.', exEn: 'Success comes from effort.' },
+    { kr: '건강', ro: 'geon-gang', en: 'Health', ex: '건강이 제일 중요하다.', exEn: 'Health is the most important thing.' },
+    { kr: '용기', ro: 'yong-gi', en: 'Courage', ex: '도전하려면 용기가 필요하다.', exEn: 'You need courage to take on a challenge.' },
+    { kr: '희망', ro: 'huimang', en: 'Hope', ex: '내일은 더 나을 거라는 희망이 있다.', exEn: 'There is hope that tomorrow will be better.' },
+    { kr: '기억', ro: 'gieok', en: 'Memory', ex: '좋은 기억으로 남았다.', exEn: 'It remains a good memory.' },
+    { kr: '자유', ro: 'jayu', en: 'Freedom', ex: '자유롭게 여행하고 싶다.', exEn: 'I want to travel freely.' },
+    { kr: '평화', ro: 'pyeonghwa', en: 'Peace', ex: '세계 평화를 바란다.', exEn: 'I wish for world peace.' },
+    { kr: '기회', ro: 'gihoe', en: 'Opportunity', ex: '이번이 좋은 기회다.', exEn: 'This is a good opportunity.' },
+    { kr: '변화', ro: 'byeonhwa', en: 'Change', ex: '변화는 두렵지만 필요하다.', exEn: 'Change is scary but necessary.' },
+    { kr: '경험', ro: 'gyeongheom', en: 'Experience', ex: '값진 경험을 했다.', exEn: 'I had a valuable experience.' },
+    { kr: '성공', ro: 'seonggong', en: 'Success', ex: '작은 성공이 모여 큰 성공이 된다.', exEn: 'Small successes add up to a big success.' },
+    { kr: '실패', ro: 'silpae', en: 'Failure', ex: '실패는 성공의 어머니다.', exEn: 'Failure is the mother of success.' },
+    { kr: '믿음', ro: 'mideum', en: 'Trust / Faith', ex: '서로에 대한 믿음이 중요하다.', exEn: 'Trust in each other is important.' },
+    { kr: '고마움', ro: 'gomaum', en: 'Gratitude', ex: '작은 고마움도 표현해야 한다.', exEn: 'Even small gratitude should be expressed.' },
+    { kr: '설렘', ro: 'seollem', en: 'Excitement / Butterflies', ex: '첫 만남에 설렘을 느꼈다.', exEn: 'I felt excitement at our first meeting.' },
+    { kr: '그리움', ro: 'geuriwum', en: 'Longing / Missing', ex: '고향에 대한 그리움이 크다.', exEn: 'I have a strong longing for my hometown.' },
+    { kr: '위로', ro: 'wiro', en: 'Comfort / Consolation', ex: '따뜻한 말 한마디가 위로가 됐다.', exEn: 'A warm word was a comfort.' },
+    { kr: '배려', ro: 'baeryeo', en: 'Consideration', ex: '작은 배려가 큰 감동을 준다.', exEn: 'Small consideration gives a big impression.' },
+    { kr: '도전', ro: 'dojeon', en: 'Challenge', ex: '새로운 도전을 시작했다.', exEn: 'I started a new challenge.' },
+    { kr: '인연', ro: 'inyeon', en: 'Fated relationship', ex: '우리는 특별한 인연이다.', exEn: 'We have a special connection.' },
+    { kr: '추억', ro: 'chueok', en: 'Memories (of the past)', ex: '학창 시절의 추억이 많다.', exEn: 'I have many memories from school days.' },
+    { kr: '정성', ro: 'jeongseong', en: 'Sincerity / Devotion', ex: '정성을 다해 음식을 만들었다.', exEn: 'I cooked the food with all my sincerity.' },
+    { kr: '여유', ro: 'yeoyu', en: 'Composure / Leisure', ex: '조금은 여유를 가지고 살자.', exEn: 'Let\'s live with a little more ease.' },
+  ];
 
-  function ballClass(n) {
-    if (n <= 10) return 'b1';
-    if (n <= 20) return 'b2';
-    if (n <= 30) return 'b3';
-    if (n <= 40) return 'b4';
-    return 'b5';
+  function dailySeed() {
+    const now = new Date();
+    return now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
   }
 
-  function drawNumbers() {
-    const pool = Array.from({ length: 45 }, (_, i) => i + 1);
-    const picked = [];
-    for (let i = 0; i < 6; i++) {
-      const idx = Math.floor(Math.random() * pool.length);
-      picked.push(pool.splice(idx, 1)[0]);
-    }
-    return picked.sort((a, b) => a - b);
+  function seededRandom(seed) {
+    let s = seed % 2147483647;
+    if (s <= 0) s += 2147483646;
+    return function () {
+      s = (s * 16807) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
   }
 
-  function renderGame(label, numbers) {
-    const row = document.createElement('div');
-    row.className = 'game';
-    const ballsHtml = numbers
-      .map(n => `<span class="ball ${ballClass(n)}">${n}</span>`)
-      .join('');
-    row.innerHTML = `<span class="game-label">${label}</span><span class="balls">${ballsHtml}</span>`;
-    return row;
+  function pickDailyWords() {
+    const rand = seededRandom(dailySeed());
+    const pool = WORDS.map((w, i) => ({ w, key: rand() + i * 0.0000001 }));
+    pool.sort((a, b) => a.key - b.key);
+    return pool.slice(0, 10).map(p => p.w);
   }
 
-  function renderAll() {
-    gamesEl.innerHTML = '';
-    labels.forEach(label => {
-      gamesEl.appendChild(renderGame(label, drawNumbers()));
+  function renderDate() {
+    const now = new Date();
+    const label = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일의 단어`;
+    document.getElementById('dateLabel').textContent = label;
+  }
+
+  function render() {
+    renderDate();
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    pickDailyWords().forEach((word, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-head">
+          <span class="index">${i + 1}</span>
+          <span class="word">${word.kr}</span>
+        </div>
+        <div class="romanization">${word.ro}</div>
+        <div class="meaning">${word.en}</div>
+        <div class="example">
+          <div class="kr">${word.ex}</div>
+          <div class="en">${word.exEn}</div>
+        </div>
+      `;
+      grid.appendChild(card);
     });
   }
 
-  function renderOne() {
-    gamesEl.innerHTML = '';
-    gamesEl.appendChild(renderGame(labels[0], drawNumbers()));
-  }
-
-  document.getElementById('generateBtn').addEventListener('click', renderOne);
-  document.getElementById('generateAllBtn').addEventListener('click', renderAll);
-
-  const themeToggle = document.getElementById('themeToggle');
-  function updateToggleLabel() {
-    const current = document.documentElement.getAttribute('data-theme');
-    themeToggle.textContent = current === 'light' ? '☀️ 화이트모드' : '🌙 다크모드';
-  }
-  themeToggle.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    const next = current === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    updateToggleLabel();
-  });
-  updateToggleLabel();
-
-  renderAll();
+  render();
 </script>
 </body>
 </html>
