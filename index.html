@@ -3,167 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Learn Korean — Daily Phrases</title>
-<meta name="description" content="Learn 10 real-life Korean phrases every day, with romanization, English meaning, usage tips, and audio pronunciation.">
-<style>
-  :root {
-    --bg: #f7f5f0;
-    --card: #ffffff;
-    --text: #2b2620;
-    --muted: #8a8378;
-    --accent: #c1440e;
-    --accent-soft: #fbe9df;
-    --border: #e8e3da;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 48px 16px 80px;
-  }
-  h1 {
-    font-size: 1.9rem;
-    margin: 0 0 6px;
-    letter-spacing: -0.5px;
-    text-align: center;
-  }
-  .subtitle {
-    color: var(--muted);
-    font-size: 0.98rem;
-    margin: 0 0 6px;
-    text-align: center;
-    max-width: 480px;
-  }
-  .date {
-    color: var(--accent);
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 36px;
-  }
-  .grid {
-    width: 100%;
-    max-width: 760px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 16px;
-  }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px 22px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
-  }
-  .card-top {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .index {
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 0.75rem;
-    padding: 2px 8px;
-    border-radius: 999px;
-  }
-  .category {
-    color: var(--muted);
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .card-head {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  .speak-btn {
-    margin-left: auto;
-    background: var(--accent-soft);
-    color: var(--accent);
-    border: none;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    font-size: 1.05rem;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.12s ease, background 0.12s ease;
-    flex-shrink: 0;
-  }
-  .speak-btn:hover {
-    background: var(--accent);
-    color: #fff;
-  }
-  .speak-btn:active {
-    transform: scale(0.9);
-  }
-  .speak-btn.playing {
-    background: var(--accent);
-    color: #fff;
-  }
-  .word {
-    font-size: 1.4rem;
-    font-weight: 700;
-  }
-  .romanization {
-    color: var(--muted);
-    font-style: italic;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-  }
-  .meaning {
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  .usage {
-    border-top: 1px dashed var(--border);
-    padding-top: 10px;
-    font-size: 0.9rem;
-    line-height: 1.55;
-  }
-  .usage .en {
-    color: var(--text);
-  }
-  .usage .kr {
-    color: var(--muted);
-    font-size: 0.85rem;
-    margin-top: 3px;
-  }
-  footer {
-    margin-top: 40px;
-    color: var(--muted);
-    font-size: 0.82rem;
-    text-align: center;
-    line-height: 1.6;
-    max-width: 480px;
-  }
-</style>
+<title>Learn Korean — Daily Phrases &amp; Guides</title>
+<meta name="description" content="Learn 10 real-life Korean phrases every day, with romanization, English meaning, audio pronunciation, and free beginner guides to Korean grammar and culture.">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>🇰🇷 Learn Korean — Daily 10 Phrases</h1>
-  <p class="subtitle">Real-life Korean phrases for beginners, with pronunciation, meaning, and when to use them.</p>
-  <div class="date" id="dateLabel"></div>
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="brand">🇰🇷 Learn Korean</a>
+      <a href="index.html" class="link" aria-current="page">Home</a>
+      <a href="articles.html" class="link">Articles</a>
+      <a href="about.html" class="link">About</a>
+      <a href="contact.html" class="link">Contact</a>
+    </nav>
+  </header>
 
-  <div class="grid" id="grid"></div>
+  <main>
+    <h1>Learn Korean — Daily 10 Phrases</h1>
+    <p class="subtitle">A free, beginner-friendly way to pick up real-life Korean. Every day we hand-pick 10 practical phrases with romanization, meaning, usage notes, and audio pronunciation — no sign-up required.</p>
+    <div class="date" id="dateLabel"></div>
 
-  <footer>
-    A fresh set of 10 phrases is picked automatically every day at midnight — come back tomorrow to learn more.
+    <div class="grid" id="grid"></div>
+
+    <section class="prose" style="margin-top: 56px;">
+      <h2>Why practice with daily phrases?</h2>
+      <p>
+        Most Korean learners start with long vocabulary lists that are hard to remember because the words are never
+        tied to a real situation. This site takes a different approach: every phrase here is something you might
+        actually say or hear within your first few weeks in Korea — ordering food, asking for directions, thanking
+        someone, or making small talk. Learning ten phrases a day, in context, is far more effective than trying to
+        memorize a hundred isolated words at once.
+      </p>
+      <p>
+        Each card shows the Korean phrase, how to pronounce it (romanization), what it means in English, and a short
+        note on when native speakers actually use it. Tap the speaker icon to hear it read aloud using your
+        browser's built-in Korean text-to-speech voice, so you can practice your listening and speaking together.
+      </p>
+      <p>
+        Want to go deeper than daily phrases? Check out our <a href="articles.html">beginner guides</a> on Korean
+        greetings, honorifics, pronunciation, and common mistakes — all written for complete beginners.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>A fresh set of 10 phrases is picked automatically every day at midnight — come back tomorrow to learn more.</div>
+    <div>© <span id="year"></span> Learn Korean Daily. All rights reserved.</div>
+    <div class="foot-links">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
   </footer>
 
 <script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
   const WORDS = [
     { kr: '안녕하세요', ro: 'annyeonghaseyo', en: 'Hello', cat: 'Greetings', ex: 'When meeting or greeting someone', exKr: '누군가를 처음 만나거나 마주쳤을 때' },
     { kr: '감사합니다', ro: 'gamsahamnida', en: 'Thank you', cat: 'Politeness', ex: 'Politely, when someone helps you', exKr: '도움을 받았을 때 정중하게' },
