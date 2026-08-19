@@ -56,6 +56,32 @@
     gap: 10px;
     margin-bottom: 8px;
   }
+  .speak-btn {
+    margin-left: auto;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 1.05rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.12s ease, background 0.12s ease;
+  }
+  .speak-btn:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+  .speak-btn:active {
+    transform: scale(0.9);
+  }
+  .speak-btn.playing {
+    background: var(--accent);
+    color: #fff;
+  }
   .index {
     background: var(--accent-soft);
     color: var(--accent);
